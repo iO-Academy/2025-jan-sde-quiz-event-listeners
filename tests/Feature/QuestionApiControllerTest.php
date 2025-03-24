@@ -46,4 +46,17 @@ class QuestionApiControllerTest extends TestCase
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['question', 'points', 'quiz_id']);
     }
+
+    public function test_create_question_non_existing_quiz_id(): void
+    {
+        $response = $this->postJson('/api/questions', [
+            'question' => 'This is a question',
+            'points' => 5,
+            'hint' => 'Hello there',
+            'quiz_id' => 99999
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['quiz_id']);
+    }
 }
