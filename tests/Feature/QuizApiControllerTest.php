@@ -37,4 +37,29 @@ class QuizApiControllerTest extends TestCase
                     ->where('data', []);
             });
     }
+
+    public function test_quiz_api_controller_successful_create_quiz(): void
+    {
+        $quizData = [
+            'name' => 'quiz',
+            'description' => 'quiz',
+        ];
+        $response = $this->postJson('/api/quizzes', $quizData);
+        $response->assertStatus(201)
+            ->assertJson(function (AssertableJson $response) {
+                $response->has('message')
+                    ->whereType('message', 'string');
+            });
+        $this->assertDatabaseHas('quizzes', $quizData);
+    }
+
+    public function test_quiz_api_controller_invalid_data(): void
+    {
+        $quizData = [
+            'name' => 2,
+            'description' => 1,
+        ];
+        $response = $this->postJson('/api/quizzes', $quizData);
+        $response->assertInvalid(['name', 'description']);
+    }
 }
