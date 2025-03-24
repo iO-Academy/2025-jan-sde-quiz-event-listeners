@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class QuestionApiController extends Controller
 {
-    public function create(Request $request)
+    public function create(Request $request): JsonResponse
     {
         $request->validate([
             'question' => 'required|string|min:5|max:70',
