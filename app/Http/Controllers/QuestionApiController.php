@@ -17,8 +17,14 @@ class QuestionApiController extends Controller
         $newQuestion->hint = $request->hint;
         $newQuestion->points = $request->points;
         $newQuestion->quiz_id = $request->quiz_id;
-
         $newQuestion->save();
+
+        if(!$newQuestion->save())
+        {
+            return response()->json([
+                'message' => 'Question creation failed'
+            ], 500);
+        }
 
         return response()->json([
             'message' => 'Question Created',
