@@ -2,17 +2,22 @@
 
 namespace Tests\Feature;
 
+use App\Models\Quiz;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class QuizApiControllerTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
+    use DatabaseMigrations;
+    public function test_QuizApiController_returnsCorrectData() : void
     {
-        $response = $this->get('/');
+        $quiz = Quiz::factory()->count(5)->create();
+        $response = $this->get('/api/quizzes');
+        $response->assertStatus(200)
+            ->assertJson(function (AssertableJson $response) {
+                $response->hasAll('message', 'data');
+            });
 
-        $response->assertStatus(200);
     }
 }
