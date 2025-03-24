@@ -50,6 +50,7 @@ class QuizApiControllerTest extends TestCase
                 $response->has('message')
                     ->whereType('message', 'string');
             });
+        $this->assertDatabaseHas('quizzes', $quizData);
     }
 
     public function test_quiz_api_controller_invalid_data(): void
