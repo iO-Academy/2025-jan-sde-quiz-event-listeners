@@ -55,10 +55,20 @@ class QuizApiControllerTest extends TestCase
     public function test_quiz_api_controller_invalid_data(): void
     {
         $quizData = [
-            'name' => 'quiz',
+            'name' => 2,
             'description' => 1,
         ];
         $response = $this->postJson('/api/quizzes', $quizData);
-        $response->assertStatus(422);
+        $response->assertStatus(422)
+            ->assertJson(function (AssertableJson $response) {
+                $response->hasAll('message', 'errors')
+                    ->has('errors', function (AssertableJson $errors) {
+                        $errors->hasAll('name', 'description')
+                            ->whereAllType([
+                                'name' => 'array',
+                                'description' => 'array',
+                            ]);
+                    });
+            });
     }
 }
