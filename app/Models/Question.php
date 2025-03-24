@@ -12,12 +12,12 @@ class Question extends Model
     /** @use HasFactory<\Database\Factories\QuestionFactory> */
     use HasFactory;
 
-    public function quiz() : BelongsTo
+    public function quiz(): BelongsTo
     {
         return $this->belongsTo(Quiz::class);
     }
 
-    public function answers() : HasMany
+    public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);
     }

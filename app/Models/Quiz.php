@@ -12,7 +12,7 @@ class Quiz extends Model
     /** @use HasFactory<QuizFactory> */
     use HasFactory;
 
-    public function questions() : HasMany
+    public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
     }
