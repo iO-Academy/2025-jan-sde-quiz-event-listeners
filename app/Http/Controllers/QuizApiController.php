@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateQuizRequest;
 use App\Models\Quiz;
-use http\Env\Request;
 use Illuminate\Http\JsonResponse;
 
 class QuizApiController extends Controller
@@ -18,9 +18,8 @@ class QuizApiController extends Controller
         ], 200);
     }
 
-    public function create( $request): JsonResponse
+    public function create(CreateQuizRequest $request): JsonResponse
     {
-
 
         return response()->json([
             'message' => 'Quiz Created'
