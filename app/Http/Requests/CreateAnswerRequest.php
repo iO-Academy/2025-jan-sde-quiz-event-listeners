@@ -12,7 +12,8 @@ class CreateAnswerRequest extends FormRequest
         return [
             'answer' => "required|string",
             'correct' => "required|boolean",
-            'question_id' => 'required|integer|exists:questions,id'
+            'question_id' => 'required|integer|exists:questions,id',
+            'feedback' => "nullable|string",
         ];
     }
 }
