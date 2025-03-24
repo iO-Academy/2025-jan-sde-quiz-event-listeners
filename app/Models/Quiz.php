@@ -12,6 +12,8 @@ class Quiz extends Model
     /** @use HasFactory<QuizFactory> */
     use HasFactory;
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function questions(): HasMany
     {
         return $this->hasMany(Question::class);
