@@ -8,4 +8,5 @@ route::get('/quizzes/{quiz}', [QuizApiController::class, 'find']);
 route::controller(QuizApiController::class)->group(function () {
     route::get('/quizzes', 'all');
     route::post('/quizzes', 'create');
+    route::put('/quizzes/{quiz}', 'edit');
 });
