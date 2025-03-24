@@ -18,6 +18,21 @@ class QuizApiController extends Controller
         ], 200);
     }
 
+    public function find(int $id): JsonResponse
+    {
+        $quiz = Quiz::with('questions.answers')->find($id);
+        if (! $quiz) {
+            return response()->json([
+                'message' => 'Quiz not found',
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Quiz retrieved',
+            'data' => $quiz,
+        ], 200);
+    }
+
     public function create(CreateQuizRequest $request): JsonResponse
     {
         $quiz = new Quiz;

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Answer;
+use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -36,6 +38,37 @@ class QuizApiControllerTest extends TestCase
                 $response->hasAll('message', 'data')
                     ->where('data', []);
             });
+    }
+
+    public function test_quiz_api_controller_single_does_not_exist(): void
+    {
+        $response = $this->get('/api/quizzes/1');
+        $response->assertStatus(404)
+            ->assertJson(function (AssertableJson $response) {
+                $response->where('message', 'Quiz not found');
+            });
+    }
+
+    public function test_quiz_api_controller_single_does_exist(): void
+    {
+        $quiz = Quiz::factory()->has(Question::factory()->count(1)
+            ->has(Answer::factory()->count(1)))->create(['id' => 1]);
+
+        $response = $this->get('/api/quizzes/1');
+        $response->assertStatus(200)
+            ->assertJson(function (AssertableJson $response) {
+                $response->hasAll('message', 'data')
+                    ->has('data', function (AssertableJson $data) {
+                        $data->hasAll('id', 'name', 'description', 'questions')
+                            ->has('questions', 1, function (AssertableJson $questions) {
+                                $questions->hasAll('question', 'hint', 'points', 'answers', 'id')
+                                    ->has('answers', 1, function (AssertableJson $answers) {
+                                        $answers->hasAll('id', 'answer', 'feedback', 'correct');
+                                    });
+                            });
+                    });
+            });
+
     }
 
     public function test_quiz_api_controller_successful_create_quiz(): void
