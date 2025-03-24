@@ -22,8 +22,10 @@ class QuizApiControllerTest extends TestCase
                 $response->hasAll('message', 'data')
                     ->has('data', 5, function (AssertableJson $data) {
                         $data->hasAll('id', 'name', 'description')
-                            ->where('name', fn ($name) => is_string($name))
-                            ->where('description', fn ($description) => is_string($description));
+                            ->whereAllType([
+                                'name' => 'string',
+                                'description' => 'string',
+                            ]);
                     });
             });
     }
@@ -67,5 +69,30 @@ class QuizApiControllerTest extends TestCase
                     });
             });
 
+    }
+
+    public function test_quiz_api_controller_successful_create_quiz(): void
+    {
+        $quizData = [
+            'name' => 'quiz',
+            'description' => 'quiz',
+        ];
+        $response = $this->postJson('/api/quizzes', $quizData);
+        $response->assertStatus(201)
+            ->assertJson(function (AssertableJson $response) {
+                $response->has('message')
+                    ->whereType('message', 'string');
+            });
+        $this->assertDatabaseHas('quizzes', $quizData);
+    }
+
+    public function test_quiz_api_controller_invalid_data(): void
+    {
+        $quizData = [
+            'name' => 2,
+            'description' => 1,
+        ];
+        $response = $this->postJson('/api/quizzes', $quizData);
+        $response->assertInvalid(['name', 'description']);
     }
 }
