@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use http\Env\Request;
 use Illuminate\Http\JsonResponse;
 
 class QuizApiController extends Controller
@@ -15,5 +16,14 @@ class QuizApiController extends Controller
             'message' => 'Quizzes retrieved',
             'data' => $quizzes,
         ], 200);
+    }
+
+    public function create( $request): JsonResponse
+    {
+
+
+        return response()->json([
+            'message' => 'Quiz Created'
+        ], 201);
     }
 }
