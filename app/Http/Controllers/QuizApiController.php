@@ -55,7 +55,7 @@ class QuizApiController extends Controller
     {
         $quiz = Quiz::find($id);
 
-        if ($quiz == []) {
+        if (!$quiz) {
             return response()->json([
                 'message' => 'Quiz not found',
             ], 404);
