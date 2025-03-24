@@ -12,9 +12,11 @@ class QuizSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('quizzes')->insert([
-            'name' => fake()->words(3, true),
-
-        ]);
+        for ($i = 0; $i < 10; $i++) {
+            DB::table('quizzes')->insert([
+                'name' => fake()->words(3, true),
+                'description' => fake()->paragraphs(1, true),
+            ]);
+        }
     }
 }
