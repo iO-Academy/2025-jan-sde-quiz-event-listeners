@@ -59,7 +59,7 @@ class QuizApiController extends Controller
             return response()->json([
                 'message' => 'Quiz not found',
             ], 404);
-        } else{
+        } else {
             $quiz->name = $request->name;
             $quiz->description = $request->description;
         }
