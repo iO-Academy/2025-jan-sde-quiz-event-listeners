@@ -11,6 +11,8 @@ class Answer extends Model
     /** @use HasFactory<\Database\Factories\AnswerFactory> */
     use HasFactory;
 
+    protected $hidden = ['created_at', 'updated_at', 'question_id'];
+
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
