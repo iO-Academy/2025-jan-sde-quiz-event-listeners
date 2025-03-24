@@ -13,7 +13,7 @@ class QuestionApiController extends Controller
             'question' => 'required|string|min:5|max:70',
             'hint' => 'nullable|string|min:5|max:70',
             'points' => 'required|integer',
-            'quiz_id' => 'required|integer'
+            'quiz_id' => 'required|integer',
         ]);
 
         $newQuestion = new Question;
@@ -27,6 +27,6 @@ class QuestionApiController extends Controller
 
         return response()->json([
             'message' => 'Question Created',
-        ],201);
+        ], 201);
     }
 }

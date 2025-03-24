@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Quiz;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class QuestionApiControllerTest extends TestCase
@@ -20,7 +18,7 @@ class QuestionApiControllerTest extends TestCase
             'question' => 'What is the square root of 144',
             'points' => '2',
             'hint' => 'This is a hint',
-            'quiz_id' => $quiz->id
+            'quiz_id' => $quiz->id,
         ];
 
         $response = $this->postJson('/api/questions', $testData);
@@ -32,7 +30,8 @@ class QuestionApiControllerTest extends TestCase
     public function test_create_question_missing_data(): void
     {
         $response = $this->postJson('/api/questions', []);
-        $response->assertInvalid(['question', 'points', 'quiz_id']);
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['question', 'points', 'quiz_id']);
     }
 
     public function test_create_question_invalid_data(): void
@@ -41,12 +40,10 @@ class QuestionApiControllerTest extends TestCase
             'question' => 'a',
             'points' => 'not an integer',
             'hint' => 'a',
-            'quiz_id' => 'not a valid id'
+            'quiz_id' => 'not a valid id',
         ]);
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['question', 'points', 'quiz_id']);
     }
-
-
 }
