@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use Illuminate\Http\JsonResponse;
 
 class QuizApiController extends Controller
 {
-    public function all()
+    public function all(): JsonResponse
     {
         $quizzes = Quiz::all();
 
