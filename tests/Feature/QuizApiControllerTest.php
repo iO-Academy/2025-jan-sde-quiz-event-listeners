@@ -35,4 +35,13 @@ class QuizApiControllerTest extends TestCase
                     ->where('data', []);
             });
     }
+
+    public function test_quiz_api_controller_does_not_exist(): void
+    {
+        $response = $this->get('/api/quizzes/1');
+        $response->assertStatus(404)
+            ->assertJson(function (AssertableJson $response) {
+                $response->has('message', 'Quiz not found');
+            });
+    }
 }
