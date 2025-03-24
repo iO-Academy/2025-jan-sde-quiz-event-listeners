@@ -20,6 +20,10 @@ class QuizApiController extends Controller
 
     public function create(CreateQuizRequest $request): JsonResponse
     {
+        $quiz = new Quiz();
+        $quiz->name = $request->name;
+        $quiz->description = $request->description;
+        $quiz->save();
 
         return response()->json([
             'message' => 'Quiz Created'
