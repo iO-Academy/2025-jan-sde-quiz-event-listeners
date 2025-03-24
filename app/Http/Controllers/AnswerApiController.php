@@ -16,10 +16,14 @@ class AnswerApiController extends Controller
         $answer->correct = $request->correct;
         $answer->feedback = $request->feedback ?? null;
         $answer->question_id = $request->question_id;
-        $answer->save();
 
+        if($answer->save()){
+            return response()->json([
+                'message' => 'Answer created'
+            ], 201);
+        }
         return response()->json([
-            'message' => 'Answer created'
-        ], 201);
+            'message' => 'Answer creation failed'
+        ], 500);
     }
 }
