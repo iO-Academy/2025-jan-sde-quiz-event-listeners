@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateQuestionRequest;
 use App\Models\Question;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class QuestionApiController extends Controller
 {
-    public function create(Request $request): JsonResponse
+    public function create(CreateQuestionRequest $request): JsonResponse
     {
-        $request->validate([
-            'question' => 'required|string|min:5|max:70',
-            'hint' => 'nullable|string|min:5|max:70',
-            'points' => 'required|integer',
-            'quiz_id' => 'required|integer',
-        ]);
 
         $newQuestion = new Question;
 
