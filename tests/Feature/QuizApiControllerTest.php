@@ -20,8 +20,10 @@ class QuizApiControllerTest extends TestCase
                 $response->hasAll('message', 'data')
                     ->has('data', 5, function (AssertableJson $data) {
                         $data->hasAll('id', 'name', 'description')
-                            ->where('name', fn ($name) => is_string($name))
-                            ->where('description', fn ($description) => is_string($description));
+                            ->whereAllType([
+                                'name' => 'string',
+                                'description' => 'string',
+                            ]);
                     });
             });
     }
