@@ -38,7 +38,7 @@ class QuizApiControllerTest extends TestCase
             });
     }
 
-    public function test_quiz_api_controller_successfulCreateQuiz() : void
+    public function test_quiz_api_controller_successful_create_quiz(): void
     {
         $quizData = [
             'name' => 'quiz',
@@ -52,7 +52,7 @@ class QuizApiControllerTest extends TestCase
             });
     }
 
-    public function test_quiz_api_controller_invalidData() : void
+    public function test_quiz_api_controller_invalid_data(): void
     {
         $quizData = [
             'name' => 'quiz',
