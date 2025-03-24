@@ -20,7 +20,6 @@ class AnswerApiControllerTest extends TestCase
             'question_id' => 1,
             'feedback' => null,
         ];
-
         $quiz = Quiz::factory()->create(['id' => 1]);
         $question = Question::factory()->create(['id' => 1, 'quiz_id' => $quiz->id]);
 
@@ -42,6 +41,7 @@ class AnswerApiControllerTest extends TestCase
         ];
         $quiz = Quiz::factory()->create(['id' => 1]);
         $question = Question::factory()->create(['id' => 1, 'quiz_id' => $quiz->id]);
+
         $response = $this->postJson('/api/answers', $answerData);
         $response->assertInvalid(['answer', 'correct', 'question_id']);
     }
