@@ -13,3 +13,5 @@ route::controller(QuizApiController::class)->group(function () {
 
 route::post('/questions', [QuestionApiController::class, 'create']);
 route::post('/answers', [AnswerApiController::class, 'create']);
+
+route::post('/scores', [QuizApiController::class, 'results']);
