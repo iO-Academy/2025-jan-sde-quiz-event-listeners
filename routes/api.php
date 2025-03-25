@@ -15,4 +15,4 @@ route::controller(QuizApiController::class)->group(function () {
 route::post('/questions', [QuestionApiController::class, 'create']);
 route::delete('/questions/{question}', [QuestionApiController::class, 'delete']);
 route::post('/answers', [AnswerApiController::class, 'create']);
-route::patch('/answers{answer}', [AnswerApiController::class, 'update']);
+route::put('/answers/{answer}', [AnswerApiController::class, 'update']);
