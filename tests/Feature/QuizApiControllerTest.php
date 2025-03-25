@@ -149,11 +149,11 @@ class QuizApiControllerTest extends TestCase
     public function test_quiz_api_controller_invalid_result_data(): void
     {
         $data = [
-            'quiz' => "invalid",
+            'quiz' => 'invalid',
             'answers' => [
-                ['question' => "invalid", 'answer' => "invalid"],
-                ['question' => "invalid", 'answer' => "invalid"],
-                ['question' => "invalid", 'answer' => "invalid"],
+                ['question' => 'invalid', 'answer' => 'invalid'],
+                ['question' => 'invalid', 'answer' => 'invalid'],
+                ['question' => 'invalid', 'answer' => 'invalid'],
             ],
         ];
 
@@ -180,8 +180,13 @@ class QuizApiControllerTest extends TestCase
             'answers.0.answer',
             'answers.1.answer',
             'answers.2.answer',
-            ]);
+        ]);
     }
 
-
+    public function test_quiz_api_controller_missing_results_data(): void
+    {
+        $data = [];
+        $response = $this->postJson('/api/scores', $data);
+        $response->assertInvalid(['quiz', 'answers']);
+    }
 }
