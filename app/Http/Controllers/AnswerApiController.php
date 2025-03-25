@@ -31,7 +31,7 @@ class AnswerApiController extends Controller
     {
         $answer = Answer::find($id);
 
-        if(!$answer) {
+        if (! $answer) {
             return response()->json([
                 'message' => 'Answer not found',
             ], 404);
@@ -44,8 +44,8 @@ class AnswerApiController extends Controller
         if ($answer->save()) {
             return response()->json([
                 'message' => 'Answer edited',
-            ],200);
-        };
+            ], 200);
+        }
 
         return response()->json([
             'message' => 'Answer editing failed',

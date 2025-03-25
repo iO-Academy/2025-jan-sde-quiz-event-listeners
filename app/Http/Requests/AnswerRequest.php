@@ -14,7 +14,7 @@ class AnswerRequest extends FormRequest
             'feedback' => 'nullable|string|max:255',
         ];
 
-        if($this->isMethod('POST')) {
+        if ($this->isMethod('POST')) {
             $rules['question_id'] = 'required|integer|exists:questions,id';
         }
 

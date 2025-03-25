@@ -112,6 +112,4 @@ class AnswerApiControllerTest extends TestCase
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['answer', 'correct']);
     }
-
-
 }
