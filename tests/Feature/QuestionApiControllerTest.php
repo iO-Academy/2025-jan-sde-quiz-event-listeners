@@ -72,4 +72,14 @@ class QuestionApiControllerTest extends TestCase
                     ->where('message', 'Question deleted');
             });
     }
+
+    public function test_delete_question_not_found(): void
+    {
+        $response = $this->deleteJson('/api/questions/1');
+        $response->assertStatus(404)
+            ->assertJson(function (AssertableJson $json) {
+                $json->has('message')
+                    ->where('message', 'Question not found');
+            });
+    }
 }
