@@ -83,4 +83,46 @@ class QuestionApiControllerTest extends TestCase
                     ->where('message', 'Question not found');
             });
     }
+
+    public function test_edit_question_not_found(): void
+    {
+        $questionData = [
+            'question' => 'This is a question',
+            'points' => 5,
+            'hint' => 'Hello there',
+        ];
+        $response = $this->putJson('/api/questions/1', $questionData);
+        $response->assertStatus(404)
+            ->assertJson(function (AssertableJson $json) {
+                $json->where('message', 'Question not found');
+            });
+    }
+
+    public function test_edit_question_success(): void
+    {
+        $question = Question::factory()->create(['id' => 1]);
+        $questionData = [
+            'question' => 'This is a question',
+            'points' => 5,
+            'hint' => 'Hello there',
+        ];
+        $response = $this->putJson('/api/questions/1', $questionData);
+        $response->assertStatus(200)
+            ->assertJson(function (AssertableJson $json) {
+                $json->where('message', 'Question edited');
+            });
+        $this->assertDatabaseHas('questions', $questionData);
+    }
+
+    public function test_edit_question_invalid_data(): void
+    {
+        $question = Question::factory()->create(['id' => 1]);
+        $response = $this->putJson('/api/questions/1', [
+            'question' => 'a',
+            'points' => 'nan',
+            'hint' => 'a',
+        ]);
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['question', 'points']);
+    }
 }

@@ -13,5 +13,6 @@ route::controller(QuizApiController::class)->group(function () {
 });
 
 route::post('/questions', [QuestionApiController::class, 'create']);
+route::put('/questions/{question}', [QuestionApiController::class, 'edit']);
 route::delete('/questions/{question}', [QuestionApiController::class, 'delete']);
 route::post('/answers', [AnswerApiController::class, 'create']);
