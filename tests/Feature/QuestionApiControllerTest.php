@@ -67,9 +67,10 @@ class QuestionApiControllerTest extends TestCase
         $question = Question::factory()->create(['id' => 1]);
         $response = $this->deleteJson('/api/questions/1');
         $response->assertStatus(200)
-            ->assertJson(function (AssertableJson $json) {
+            ->assertJson(function (AssertableJson $json) use ($question) {
                 $json->has('message')
                     ->where('message', 'Question deleted');
+                $this->assertDatabaseMissing('questions', [$question->id]);
             });
     }
 
