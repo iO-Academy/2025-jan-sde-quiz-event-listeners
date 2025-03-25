@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateQuizRequest;
+use App\Http\Requests\ResultsRequest;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Quiz;
@@ -53,14 +54,8 @@ class QuizApiController extends Controller
         ], 500);
     }
 
-    public function results(Request $request): JsonResponse
+    public function results(ResultsRequest $request): JsonResponse
     {
-        $request->validate([
-            'quiz' => 'required|integer|exists:quizzes,id',
-            'answers' => "required|array",
-            'answers.*.question' => 'required|integer|exists:questions,id',
-            'answers.*.answer' => 'required|integer|exists:answers,id',
-        ]);
 
         $question_count = 0;
         $correct_count = 0;
