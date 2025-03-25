@@ -41,6 +41,6 @@ class AnswerApiController extends Controller
 
         return response()->json([
             'message' => 'Answer deleted',
-        ], 200);
+        ]);
     }
 }

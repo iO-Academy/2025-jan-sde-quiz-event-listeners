@@ -13,8 +13,6 @@ class Answer extends Model
 
     protected $hidden = ['created_at', 'updated_at', 'question_id'];
 
-    private static function find(int $id) {}
-
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
