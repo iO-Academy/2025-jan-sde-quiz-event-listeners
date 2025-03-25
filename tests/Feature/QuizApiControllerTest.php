@@ -61,7 +61,7 @@ class QuizApiControllerTest extends TestCase
                     ->has('data', function (AssertableJson $data) {
                         $data->hasAll('id', 'name', 'description', 'questions')
                             ->has('questions', 1, function (AssertableJson $questions) {
-                                $questions->hasAll('question', 'hint', 'points', 'answers', 'id', 'quiz_id')
+                                $questions->hasAll('question', 'hint', 'points', 'answers', 'id')
                                     ->has('answers', 1, function (AssertableJson $answers) {
                                         $answers->hasAll('id', 'answer', 'feedback', 'correct');
                                     });

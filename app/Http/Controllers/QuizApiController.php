@@ -22,7 +22,7 @@ class QuizApiController extends Controller
     public function find(int $id): JsonResponse
     {
         $quiz = Quiz::with('questions.answers')->find($id);
-        if ($quiz == []) {
+        if (! $quiz) {
             return response()->json([
                 'message' => 'Quiz not found',
             ], 404);
