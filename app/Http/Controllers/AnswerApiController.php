@@ -26,4 +26,21 @@ class AnswerApiController extends Controller
             'message' => 'Answer creation failed',
         ], 500);
     }
+
+    public function delete(int $id): JsonResponse
+    {
+        $answer = Answer::find($id);
+
+        if (! $answer) {
+            return response()->json([
+                'message' => 'Answer not found',
+            ], 404);
+        }
+
+        $answer->delete();
+
+        return response()->json([
+            'message' => 'Answer deleted',
+        ]);
+    }
 }
