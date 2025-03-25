@@ -19,8 +19,8 @@ class ScoreApiControllerTest extends TestCase
             'quiz' => 1,
             'answers' => [
                 ['question' => 1, 'answer' => 1],
-                ['question' => 2, 'answer' => 1],
-                ['question' => 3, 'answer' => 1],
+                ['question' => 2, 'answer' => 3],
+                ['question' => 3, 'answer' => 5],
             ],
         ];
 
