@@ -189,4 +189,44 @@ class QuizApiControllerTest extends TestCase
         $response = $this->postJson('/api/scores', $data);
         $response->assertInvalid(['quiz', 'answers']);
     }
+
+    public function test_quiz_api_controller_edit_quiz_not_exist(): void
+    {
+        $quizData = [
+            'name' => 'quiz',
+            'description' => 'quiz',
+        ];
+        $response = $this->putJson('/api/quizzes/1', $quizData);
+        $response->assertStatus(404)
+            ->assertJson(function (AssertableJson $response) {
+                $response->where('message', 'Quiz not found');
+            });
+    }
+
+    public function test_quiz_api_controller_edit_quiz_exist(): void
+    {
+        $quiz = Quiz::factory()->create(['id' => 1]);
+        $quizData = [
+            'name' => 'quiz',
+            'description' => 'quiz',
+        ];
+        $response = $this->putJson('/api/quizzes/1', $quizData);
+        $response->assertStatus(201)
+            ->assertJson(function (AssertableJson $response) {
+                $response->where('message', 'Quiz edited');
+            });
+        $this->assertDatabaseHas('quizzes', $quizData);
+    }
+
+    public function test_quiz_api_controller_edit_quiz_invalid_data(): void
+    {
+        $quiz = Quiz::factory()->create(['id' => 1]);
+        $quizData = [
+            'name' => '',
+            'description' => 1,
+        ];
+        $response = $this->putJson('/api/quizzes/1', $quizData);
+        $response->assertInvalid(['name', 'description']);
+        $response->assertStatus(422);
+    }
 }
