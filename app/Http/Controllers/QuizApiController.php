@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateQuizRequest;
+use App\Http\Requests\QuizRequest;
 use App\Models\Quiz;
 use Illuminate\Http\JsonResponse;
 
@@ -33,7 +33,7 @@ class QuizApiController extends Controller
         ], 200);
     }
 
-    public function create(CreateQuizRequest $request): JsonResponse
+    public function create(QuizRequest $request): JsonResponse
     {
         $quiz = new Quiz;
         $quiz->name = $request->name;
@@ -47,6 +47,29 @@ class QuizApiController extends Controller
 
         return response()->json([
             'message' => 'Quiz creation failed',
+        ], 500);
+    }
+
+    public function edit(QuizRequest $request, int $id): JsonResponse
+    {
+        $quiz = Quiz::find($id);
+
+        if (! $quiz) {
+            return response()->json([
+                'message' => 'Quiz not found',
+            ], 404);
+        }
+        $quiz->name = $request->name;
+        $quiz->description = $request->description;
+
+        if ($quiz->save()) {
+            return response()->json([
+                'message' => 'Quiz edited',
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => 'Quiz editing failed',
         ], 500);
     }
 }
