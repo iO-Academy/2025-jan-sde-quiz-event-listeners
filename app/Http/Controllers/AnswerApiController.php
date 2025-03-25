@@ -13,7 +13,7 @@ class AnswerApiController extends Controller
         $answer = new Answer;
         $answer->answer = $request->answer;
         $answer->correct = $request->correct;
-        $answer->feedback = $request->feedback ?? null;
+        $answer->feedback = $request->feedback;
         $answer->question_id = $request->question_id;
 
         if ($answer->save()) {
