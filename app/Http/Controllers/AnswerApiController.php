@@ -27,8 +27,16 @@ class AnswerApiController extends Controller
         ], 500);
     }
 
-    public function update(AnswerRequest $request, Answer $answer): JsonResponse
+    public function update(AnswerRequest $request, int $id): JsonResponse
     {
+        $answer = Answer::find($id);
+
+        if(!$answer) {
+            return response()->json([
+                'message' => 'Answer not found',
+            ], 404);
+        }
+
         $answer->answer = $request->answer ?? $answer->answer;
         $answer->correct = $request->correct ?? $answer->correct;
         $answer->feedback = $request->feedback ?? $answer->feedback;
