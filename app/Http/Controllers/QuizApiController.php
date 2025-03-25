@@ -37,7 +37,7 @@ class QuizApiController extends Controller
         ], 200);
     }
 
-    public function create(CreateQuizRequest $request): JsonResponse
+    public function create(QuizRequest $request): JsonResponse
     {
         $quiz = new Quiz;
         $quiz->name = $request->name;
