@@ -29,4 +29,21 @@ class QuestionApiController extends Controller
             'message' => 'Question Created',
         ], 201);
     }
+
+    public function delete(int $id): JsonResponse
+    {
+        $question = Question::find($id);
+
+        if (! $question) {
+            return response()->json([
+                'message' => 'Question not found',
+            ], 404);
+        }
+
+        $question->delete();
+
+        return response()->json([
+            'message' => 'Question deleted',
+        ], 200);
+    }
 }
