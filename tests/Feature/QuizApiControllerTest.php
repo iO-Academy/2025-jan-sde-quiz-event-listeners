@@ -145,4 +145,43 @@ class QuizApiControllerTest extends TestCase
                     });
             });
     }
+
+    public function test_quiz_api_controller_invalid_result_data(): void
+    {
+        $data = [
+            'quiz' => "invalid",
+            'answers' => [
+                ['question' => "invalid", 'answer' => "invalid"],
+                ['question' => "invalid", 'answer' => "invalid"],
+                ['question' => "invalid", 'answer' => "invalid"],
+            ],
+        ];
+
+        $quiz = Quiz::factory()->create(['id' => 1]);
+
+        $correct = [true, false];
+        $points = [1, 2, 3];
+        $answerId = 1;
+
+        for ($i = 0; $i < 3; $i++) {
+            Question::factory()->create(['id' => $i + 1, 'quiz_id' => $quiz->id, 'points' => $points[$i]]);
+            for ($j = 0; $j < 2; $j++) {
+                Answer::factory()->create(['question_id' => $i + 1, 'id' => $answerId, 'correct' => $correct[$j]]);
+                $answerId++;
+            }
+        }
+
+        $response = $this->postJson('/api/scores', $data);
+        $response->assertInvalid([
+            'quiz',
+            'answers.0.question',
+            'answers.1.question',
+            'answers.2.question',
+            'answers.0.answer',
+            'answers.1.answer',
+            'answers.2.answer',
+            ]);
+    }
+
+
 }
