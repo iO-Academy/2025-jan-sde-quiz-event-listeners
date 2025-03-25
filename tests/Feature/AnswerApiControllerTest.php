@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -64,5 +65,27 @@ class AnswerApiControllerTest extends TestCase
         $answerData = [];
         $response = $this->postJson('/api/answers', $answerData);
         $response->assertInvalid(['answer', 'correct', 'question_id']);
+    }
+
+    public function test_delete_answer_success(): void
+    {
+        $answer = Answer::factory()->create(['id' => 1]);
+        $response = $this->deleteJson('/api/answers/1');
+        $response->assertStatus(200)
+            ->assertJson(function (AssertableJson $json) use ($answer) {
+                $json->has('message')
+                    ->where('message', 'Answer deleted');
+                $this->assertDatabaseMissing('questions', [$answer->id]);
+            });
+    }
+
+    public function test_delete_answer_not_found(): void
+    {
+        $response = $this->deleteJson('/api/answers/1');
+        $response->assertStatus(404)
+            ->assertJson(function (AssertableJson $json) {
+                $json->has('message')
+                    ->where('message', 'Answer not found');
+            });
     }
 }
