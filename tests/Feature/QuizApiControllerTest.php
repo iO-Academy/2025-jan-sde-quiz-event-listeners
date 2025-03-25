@@ -96,7 +96,7 @@ class QuizApiControllerTest extends TestCase
         $response->assertInvalid(['name', 'description']);
     }
 
-    public function test_quiz_api_controller_success_response_quiz_results() : void
+    public function test_quiz_api_controller_success_response_quiz_results(): void
     {
         $data = [
             'quiz' => 1,
@@ -104,25 +104,27 @@ class QuizApiControllerTest extends TestCase
                 ['question' => 1, 'answer' => 1],
                 ['question' => 2, 'answer' => 1],
                 ['question' => 3, 'answer' => 1],
-            ]
+            ],
         ];
 
         $quiz = Quiz::factory()->create(['id' => 1]);
 
         $correct = [true, false];
         $points = [1, 2, 3];
+        $answerId = 1;
 
         for ($i = 0; $i < 3; $i++) {
 
             // creating three questions, all with quiz id of 1
             // their own unique id of $i + 1 (1, 2, 3)
-            Question::factory()->create(['id' => $i + 1,'quiz_id' => $quiz->id, 'points' => $points[$i]]);
+            Question::factory()->create(['id' => $i + 1, 'quiz_id' => $quiz->id, 'points' => $points[$i]]);
 
             // Nested loop runs twice for each question created
             // and creates two answers for that question
             // question_id matches id of question
             for ($j = 0; $j < 2; $j++) {
-                Answer::factory()->create(['question_id' => $i + 1, 'id' => $j + 1, 'correct' => $correct[$j]]);
+                Answer::factory()->create(['question_id' => $i + 1, 'id' => $answerId, 'correct' => $correct[$j]]);
+                $answerId++;
             }
         }
 
