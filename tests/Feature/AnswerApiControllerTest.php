@@ -21,7 +21,7 @@ class AnswerApiControllerTest extends TestCase
             'feedback' => null,
         ];
         $quiz = Quiz::factory()->create(['id' => 1]);
-        $question = Question::factory()->create(['id' => 1, 'quiz_id' => $quiz->id]);
+        Question::factory()->create(['id' => 1, 'quiz_id' => $quiz->id]);
 
         $response = $this->postJson('/api/answers', $answerData);
         $response->assertStatus(201)
@@ -56,31 +56,13 @@ class AnswerApiControllerTest extends TestCase
         $quiz = Quiz::factory()->create(['id' => 1]);
 
         $response = $this->postJson('/api/answers', $answerData);
-        $response->assertStatus(422)
-            ->assertJson(function (AssertableJson $response) {
-                $response->hasAll('message', 'errors')
-                    ->has('errors', function (AssertableJson $errors) {
-                        $errors->has('question_id')
-                            ->whereType('question_id', 'array');
-                    });
-            });
+        $response->assertInvalid(['question_id']);
     }
 
     public function test_api_answer_controller_empty_data(): void
     {
         $answerData = [];
         $response = $this->postJson('/api/answers', $answerData);
-        $response->assertStatus(422)
-            ->assertJson(function (AssertableJson $response) {
-                $response->hasAll('message', 'errors')
-                    ->has('errors', function (AssertableJson $errors) {
-                        $errors->hasAll('answer', 'correct', 'question_id')
-                            ->whereAllType([
-                                'answer' => 'array',
-                                'correct' => 'array',
-                                'question_id' => 'array',
-                            ]);
-                    });
-            });
+        $response->assertInvalid(['answer', 'correct', 'question_id']);
     }
 }
