@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AnswerApiController;
+use App\Http\Controllers\QuestionApiController;
 use App\Http\Controllers\QuizApiController;
 use Illuminate\Support\Facades\Route;
 
