@@ -13,7 +13,7 @@ class ScoreApiControllerTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_quiz_api_controller_success_response_quiz_results(): void
+    public function test_score_api_controller_success_response_quiz_results(): void
     {
         $data = [
             'quiz' => 1,
@@ -67,7 +67,7 @@ class ScoreApiControllerTest extends TestCase
             });
     }
 
-    public function test_quiz_api_controller_invalid_result_data(): void
+    public function test_score_api_controller_invalid_result_data(): void
     {
         $data = [
             'quiz' => 'invalid',
@@ -104,7 +104,7 @@ class ScoreApiControllerTest extends TestCase
         ]);
     }
 
-    public function test_quiz_api_controller_missing_results_data(): void
+    public function test_score_api_controller_missing_results_data(): void
     {
         $data = [];
         $response = $this->postJson('/api/scores', $data);
