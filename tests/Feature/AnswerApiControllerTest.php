@@ -40,13 +40,12 @@ class AnswerApiControllerTest extends TestCase
             'feedback' => null,
         ];
         $quiz = Quiz::factory()->create(['id' => 1]);
-        $question = Question::factory()->create(['id' => 1, 'quiz_id' => $quiz->id]);
 
         $response = $this->postJson('/api/answers', $answerData);
         $response->assertInvalid(['answer', 'correct', 'question_id']);
     }
 
-    public function test_answer_api_controller_question_id_doesnt_exist() : void
+    public function test_answer_api_controller_question_id_doesnt_exist(): void
     {
         $answerData = [
             'answer' => 'answer',
@@ -55,7 +54,6 @@ class AnswerApiControllerTest extends TestCase
             'feedback' => null,
         ];
         $quiz = Quiz::factory()->create(['id' => 1]);
-        $question = Question::factory()->create(['id' => 1, 'quiz_id' => $quiz->id]);
 
         $response = $this->postJson('/api/answers', $answerData);
         $response->assertStatus(422)
@@ -68,7 +66,7 @@ class AnswerApiControllerTest extends TestCase
             });
     }
 
-    public function test_api_answer_controller_empty_data() : void
+    public function test_api_answer_controller_empty_data(): void
     {
         $answerData = [];
         $response = $this->postJson('/api/answers', $answerData);

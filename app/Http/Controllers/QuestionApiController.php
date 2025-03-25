@@ -19,10 +19,9 @@ class QuestionApiController extends Controller
         $newQuestion->quiz_id = $request->quiz_id;
         $newQuestion->save();
 
-        if(!$newQuestion->save())
-        {
+        if (! $newQuestion->save()) {
             return response()->json([
-                'message' => 'Question creation failed'
+                'message' => 'Question creation failed',
             ], 500);
         }
 
