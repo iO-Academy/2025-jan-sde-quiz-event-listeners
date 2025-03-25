@@ -119,7 +119,7 @@ class QuizApiControllerTest extends TestCase
         $response = $this->putJson('/api/quizzes/1', $quizData);
         $response->assertStatus(201)
             ->assertJson(function (AssertableJson $response) {
-                $response->where('message', 'Quiz Created');
+                $response->where('message', 'Quiz edited');
             });
         $this->assertDatabaseHas('quizzes', $quizData);
     }

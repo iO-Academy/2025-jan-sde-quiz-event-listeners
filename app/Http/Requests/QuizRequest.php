@@ -4,12 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditQuizRequest extends FormRequest
+class QuizRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'name' => 'string|required|max:255|min:2',
+            'name' => 'string|required|max:255',
             'description' => 'string|required',
         ];
     }
