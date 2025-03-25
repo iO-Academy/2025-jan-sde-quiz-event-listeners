@@ -9,10 +9,10 @@ class CreateAnswerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'answer' => 'required|string',
+            'answer' => 'required|string|max:255',
             'correct' => 'required|boolean',
             'question_id' => 'required|integer|exists:questions,id',
-            'feedback' => 'nullable|string',
+            'feedback' => 'nullable|string|max:255',
         ];
     }
 }
