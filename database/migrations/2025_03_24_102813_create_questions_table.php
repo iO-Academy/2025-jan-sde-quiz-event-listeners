@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('question');
-            $table->string('hint');
+            $table->string('hint')->nullable();
             $table->integer('points');
             $table->foreignId('quiz_id');
             $table->timestamps();
