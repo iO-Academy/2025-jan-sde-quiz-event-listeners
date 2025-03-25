@@ -53,7 +53,7 @@ class QuestionApiControllerTest extends TestCase
             'question' => 'This is a question',
             'points' => 5,
             'hint' => 'Hello there',
-            'quiz_id' => 99999
+            'quiz_id' => 99999,
         ]);
 
         $response->assertStatus(422);
