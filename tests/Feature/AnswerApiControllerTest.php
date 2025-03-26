@@ -89,7 +89,7 @@ class AnswerApiControllerTest extends TestCase
             });
     }
 
-    public function test_api_answer_controller_answer_exists(): void
+    public function test_api_answer_controller_answer_does_not_exist(): void
     {
         $response = $this->putJson('/api/answers/9999', [
             'answer' => 'Updated answer',
