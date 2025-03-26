@@ -17,5 +17,6 @@ route::post('/questions', [QuestionApiController::class, 'create']);
 route::put('/questions/{question}', [QuestionApiController::class, 'edit']);
 route::delete('/questions/{question}', [QuestionApiController::class, 'delete']);
 route::post('/answers', [AnswerApiController::class, 'create']);
+route::put('/answers/{answer}', [AnswerApiController::class, 'update']);
 route::post('/scores', [ScoreApiController::class, 'results']);
 route::delete('/answers/{answer}', [AnswerApiController::class, 'delete']);

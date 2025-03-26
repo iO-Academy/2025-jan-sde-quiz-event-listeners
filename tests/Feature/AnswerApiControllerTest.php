@@ -88,4 +88,50 @@ class AnswerApiControllerTest extends TestCase
                     ->where('message', 'Answer not found');
             });
     }
+
+    public function test_api_answer_controller_answer_does_not_exist(): void
+    {
+        $response = $this->putJson('/api/answers/9999', [
+            'answer' => 'Updated answer',
+            'correct' => false,
+            'feedback' => 'Updated feedback',
+        ]);
+
+        $response->assertStatus(404)
+            ->assertJson(function (AssertableJson $response) {
+                $response->has('message');
+            });
+    }
+
+    public function test_api_answer_controller_can_update_an_answer(): void
+    {
+        $question = Question::factory()->create();
+        $answer = Answer::factory()->create(['question_id' => $question->id]);
+
+        $testData = [
+            'answer' => 'updated answer',
+            'correct' => false,
+            'feedback' => 'Updated feedback',
+            'question_id' => $question->id,
+        ];
+
+        $response = $this->putJson("/api/answers/{$answer->id}", $testData);
+
+        $response->assertStatus(200);
+        $response->assertJson(['message' => 'Answer edited']);
+
+        $this->assertDatabaseHas('answers', $testData);
+    }
+
+    public function test_api_answer_controller_invalid_data(): void
+    {
+        $question = Answer::factory()->create(['id' => 1]);
+
+        $response = $this->putJson('/api/answers/1', [
+            'feedback' => 'Updated feedback',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['answer', 'correct']);
+    }
 }
