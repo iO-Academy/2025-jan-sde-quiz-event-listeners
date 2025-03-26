@@ -16,7 +16,7 @@ class RequestLogging
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Log::channel('request')->info('Request', [
+        Log::channel('requests')->info('Requests', [
             'method' => $request->method(),
             'url' => $request->fullUrl(),
         ]);
