@@ -16,7 +16,9 @@ class RequestLogging
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->getStatusCode() === 404) {
+        $response = $next($request);
+
+        if ($response->getStatusCode() === 404) {
             Log::channel('404')->info('404', [
                 'method' => $request->method(),
                 'url' => $request->fullUrl(),
@@ -28,6 +30,6 @@ class RequestLogging
             ]);
         }
 
-        return $next($request);
+        return $response;
     }
 }
