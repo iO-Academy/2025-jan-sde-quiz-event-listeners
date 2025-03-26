@@ -39,7 +39,6 @@ class ScoreApiController extends Controller
         foreach ($answers as $answer) {
             $question = $quiz->questions->find($answer['question']);
             $answerData = $question->answers->find($answer['answer']);
-            dump($answer['answer']);
             if ($answerData && $answerData->correct) {
                 $correct_count++;
                 $points += $question->points;
