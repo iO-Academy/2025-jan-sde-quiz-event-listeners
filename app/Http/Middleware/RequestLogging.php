@@ -16,10 +16,20 @@ class RequestLogging
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Log::channel('requests')->info('Requests', [
-            'method' => $request->method(),
-            'url' => $request->fullUrl(),
-        ]);
-        return $next($request);
+        $response = $next($request);
+
+        if ($response->getStatusCode() === 404) {
+            Log::info('404', [
+                'method' => $request->method(),
+                'url' => $request->fullUrl(),
+            ]);
+        } else {
+            Log::channel('requests')->info('Requests', [
+                'method' => $request->method(),
+                'url' => $request->fullUrl(),
+            ]);
+        }
+
+        return $response;
     }
 }
