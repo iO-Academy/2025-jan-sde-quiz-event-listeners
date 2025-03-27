@@ -19,7 +19,7 @@ class RequestLogging
         $response = $next($request);
 
         if ($response->getStatusCode() === 404) {
-            Log::channel('404')->info('404', [
+            Log::info('404', [
                 'method' => $request->method(),
                 'url' => $request->fullUrl(),
             ]);
