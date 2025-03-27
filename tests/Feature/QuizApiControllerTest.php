@@ -6,6 +6,7 @@ use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -42,6 +43,11 @@ class QuizApiControllerTest extends TestCase
 
     public function test_quiz_api_controller_single_does_not_exist(): void
     {
+        Log::shouldReceive('info')->once()->with('404', [
+            'method' => 'GET',
+            'url' => 'http://localhost/api/quizzes/1',
+        ]);
+
         $response = $this->get('/api/quizzes/1');
         $response->assertStatus(404)
             ->assertJson(function (AssertableJson $response) {
@@ -102,6 +108,12 @@ class QuizApiControllerTest extends TestCase
             'name' => 'quiz',
             'description' => 'quiz',
         ];
+
+        Log::shouldReceive('info')->once()->with('404', [
+            'method' => 'PUT',
+            'url' => 'http://localhost/api/quizzes/1',
+        ]);
+
         $response = $this->putJson('/api/quizzes/1', $quizData);
         $response->assertStatus(404)
             ->assertJson(function (AssertableJson $response) {

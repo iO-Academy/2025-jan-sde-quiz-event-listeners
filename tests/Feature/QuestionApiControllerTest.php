@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -76,6 +77,11 @@ class QuestionApiControllerTest extends TestCase
 
     public function test_delete_question_not_found(): void
     {
+        Log::shouldReceive('info')->once()->with('404', [
+            'method' => 'DELETE',
+            'url' => 'http://localhost/api/questions/1',
+        ]);
+
         $response = $this->deleteJson('/api/questions/1');
         $response->assertStatus(404)
             ->assertJson(function (AssertableJson $json) {
@@ -91,6 +97,12 @@ class QuestionApiControllerTest extends TestCase
             'points' => 5,
             'hint' => 'Hello there',
         ];
+
+        Log::shouldReceive('info')->once()->with('404', [
+            'method' => 'PUT',
+            'url' => 'http://localhost/api/questions/1',
+        ]);
+
         $response = $this->putJson('/api/questions/1', $questionData);
         $response->assertStatus(404)
             ->assertJson(function (AssertableJson $json) {
